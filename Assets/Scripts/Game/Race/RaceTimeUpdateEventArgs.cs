@@ -8,13 +8,13 @@ namespace Game.Race
         private float time;
 
         /// <summary>
-        /// The time passed since last frame (<see cref="Time.deltaTime"/>)
+        /// The time passed since last frame in seconds (<see cref="Time.deltaTime"/>)
         /// </summary>
         public float DeltaTime { get; }
 
-        public RaceTimeUpdateEventArgs(float time)
+        public RaceTimeUpdateEventArgs(float seconds)
         {
-            DeltaTime = time;
+            DeltaTime = seconds;
         }
     }
 }

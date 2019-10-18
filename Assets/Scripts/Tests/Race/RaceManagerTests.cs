@@ -1,6 +1,7 @@
 ﻿using System;
 using Game.Physics;
 using Game.Race;
+using Game.Race.Events;
 using NSubstitute;
 using NUnit.Framework;
 
@@ -12,7 +13,7 @@ namespace Tests
         private const int NumberOfPlayers = 1;
         private const int NumberOfLaps = 3;
         private const float Epsilon = 0.0000001f;
-        private const float frameDelta = 0.05f;
+        private const float FrameDelta = 0.05f;
 
         // Private Fields
         private IFinishTriggerController _finishTrigger;
@@ -66,22 +67,49 @@ namespace Tests
         }
 
         [Test]
-        public void RaceManager_OnComponentRaceTimeUpdateEvent_TimeGetsUpdated()
+        public void OnComponentRaceTimeUpdateEvent_RaceStarted_TimeGetsUpdated()
         {
+            StartRace();
+            _raceManagerComp.RaceTimeUpdate += Raise.EventWith(new RaceTimeUpdateEventArgs(FrameDelta));
 
-            _raceManagerComp.RaceTimeUpdate += Raise.EventWith(new RaceTimeUpdateEventArgs(frameDelta));
-
-            Assert.IsTrue(CompareFloats(frameDelta,_raceManager.RaceTime));
+            Assert.IsTrue(CompareFloats(FrameDelta, _raceManager.RaceTime));
         }
 
         [Test]
         public void RaceManager_OnRaceFinished_StopsAddingTime()
         {
             _finishTrigger.LapFinished += Raise.EventWith(new LapFinishedEventArgs(Substitute.For<IGravitySubjectController>()));
-            _raceManagerComp.RaceTimeUpdate += Raise.EventWith(new RaceTimeUpdateEventArgs(frameDelta));
+            _raceManagerComp.RaceTimeUpdate += Raise.EventWith(new RaceTimeUpdateEventArgs(FrameDelta));
             Assert.Zero(_raceManager.RaceTime);
         }
 
-        private bool CompareFloats(float a, float b) => Math.Abs(a - b) < Epsilon ? true : false; 
+        [Test]
+        public void OnRaceStartCountdown_CountingDown_FiresCountDownEvent()
+        {
+            var eventRaised = false;
+            _raceManager.RaceStartCountdownStartingEvent += (object o, RaceStartCountdownStartingEventArgs e) => { eventRaised = true; };
+
+            _raceManagerComp.RaceTimeUpdate += Raise.EventWith(new RaceTimeUpdateEventArgs(FrameDelta));
+
+            Assert.IsTrue(eventRaised);
+        }
+
+        [Test]
+        public void OnRaceStartCountdown_FinishedCounting_RaisedEvent()
+        {
+            var eventRaised = false;
+            _raceManager.RaceStartedEvent += (object o, RaceStartedEventArgs e) => { eventRaised = true; };
+
+            StartRace();
+
+            Assert.IsTrue(eventRaised);
+        }
+
+        private bool CompareFloats(float a, float b) => Math.Abs(a - b) < Epsilon ? true : false;
+
+        private void StartRace()
+        {
+            _raceManagerComp.RaceTimeUpdate += Raise.EventWith(new RaceTimeUpdateEventArgs(_raceManager.TimeToStartRace));
+        }
     }
 }

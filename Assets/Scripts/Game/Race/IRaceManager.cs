@@ -1,4 +1,7 @@
-﻿namespace Game.Race
+﻿using Game.Race.Events;
+using System;
+
+namespace Game.Race
 {
     /// <summary>
     /// Holds the game-state and triggers race related events
@@ -12,5 +15,15 @@
         float RaceTime { get; }
         float BestRaceTime { get; }
         void InitFinishTrigger(IFinishTriggerController finishTriggerController);
+
+        /// <summary>
+        /// Raised when the race start countdown begins
+        /// </summary>
+        event EventHandler<RaceStartCountdownStartingEventArgs> RaceStartCountdownStartingEvent;
+
+        /// <summary>
+        /// Raised when the race begins
+        /// </summary>
+        event EventHandler<RaceStartedEventArgs> RaceStartedEvent;
     }
 }

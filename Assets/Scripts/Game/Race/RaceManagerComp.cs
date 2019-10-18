@@ -34,9 +34,7 @@ namespace Game.Race
 
         void Awake()
         {
-            RaceManager = new RaceManager(_numberOfLaps,
-                _numberOfPlayers,
-                this);
+            RaceManager = new RaceManager(_numberOfLaps, _numberOfPlayers, this);
         }
 
         void Start()

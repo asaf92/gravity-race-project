@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Game.Race;
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,6 +9,10 @@ namespace Presentation.UI
     public class RaceStartCountdownComp : MonoBehaviour, IRaceStartCountdownComp
     {
         private const int MaxTimerSeconds = 5;
+
+        [SerializeField]
+        private GameObject _raceManagerComp;
+        private IRaceManager _raceManager;
 
         [SerializeField]
         private GameObject _countdownTextGameObject;
@@ -20,6 +25,7 @@ namespace Presentation.UI
         void Start()
         {
             _countdownText = _countdownTextGameObject.GetComponent<Text>();
+            _raceManager = _raceManagerComp.GetComponent<IRaceManager>();
         }
 
         public void StartCountDown(int seconds)
