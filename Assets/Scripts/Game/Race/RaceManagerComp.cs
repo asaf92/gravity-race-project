@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Game.Constants;
+using System;
 using UnityEngine;
+using UnityStandardAssets.Vehicles.Car;
 
 namespace Game.Race
 {
@@ -13,22 +15,17 @@ namespace Game.Race
         /// </summary>
         public IRaceManager RaceManager { get; private set; }
 
-        [SerializeField]
-        private int _numberOfLaps;
-
-        [SerializeField]
-        private int _numberOfPlayers;
-
         /// <summary>
         /// The <see cref="GameObject"/> that holds the finish trigger
         /// </summary>
-        [SerializeField]
-        private GameObject _finishTriggerGameObject;
+        [SerializeField] private GameObject _finishTriggerGameObject;
 
+        [SerializeField] private int _raceStartCountdownTime;
+        [SerializeField] private int _numberOfLaps;
+        [SerializeField] private int _numberOfPlayers;
+        private GameObject _playerGameObject;
         private IFinishTriggerController _finishTriggerController;
-
-        [SerializeField]
-        private int _raceStartCountdownTime;
+        private CarUserControl _carUserControl;
 
         /// <summary>
         /// Raised every frame update
@@ -37,11 +34,14 @@ namespace Game.Race
 
         void Awake()
         {
+            _playerGameObject = GameObject.FindGameObjectWithTag(Tags.Player);
             RaceManager = new RaceManager(_numberOfLaps, _numberOfPlayers, this, _raceStartCountdownTime);
         }
 
         void Start()
         {
+            _carUserControl = _playerGameObject.GetComponent<CarUserControl>();
+            _carUserControl.enabled = false;
             _finishTriggerController = _finishTriggerGameObject.GetComponent<FinishTriggerComp>().Controller ?? throw new ArgumentException("Finish trigger not found");
             RaceManager.InitFinishTrigger(_finishTriggerController);
         }
@@ -49,6 +49,11 @@ namespace Game.Race
         void Update()
         {
             RaceTimeUpdate?.Invoke(this, new RaceTimeUpdateEventArgs(Time.deltaTime));
+        }
+
+        public void AllowUserControl()
+        {
+            _carUserControl.enabled = true;
         }
     }
 }

@@ -25,6 +25,7 @@ namespace Presentation.UI
 
         public void SetCountdownDisplay(string displayText)
         {
+            Debug.Log($"Setting countdown display to {displayText}");
             _countdownText.text = displayText;
         }
 
@@ -37,7 +38,6 @@ namespace Presentation.UI
 
         public void RemoveCountdownDisplay(float delay)
         {
-            Debug.Log("Removing countdown text");
             StartCoroutine(RemoveComponent(delay));
         }
 
@@ -48,10 +48,11 @@ namespace Presentation.UI
         /// <returns></returns>
         private IEnumerator RemoveComponent(float delay)
         {
+            yield return null;
             Debug.Log("Remove component called");
             yield return new WaitForSeconds(delay);
             Debug.Log("Remove component finished waiting");
-            Destroy(_countdownTextGameObject, delay);
+            Destroy(_countdownTextGameObject);
             Debug.Log("Remove component finished executing");
         }
     }
