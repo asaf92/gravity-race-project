@@ -51,9 +51,6 @@ namespace Game.Race
             RaceTimeUpdate?.Invoke(this, new RaceTimeUpdateEventArgs(Time.deltaTime));
         }
 
-        public void AllowUserControl()
-        {
-            _carUserControl.enabled = true;
-        }
+        public void AllowUserControl(bool allow = true) => _carUserControl.enabled = allow;
     }
 }

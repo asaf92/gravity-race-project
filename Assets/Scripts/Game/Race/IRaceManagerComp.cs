@@ -13,5 +13,10 @@ namespace Game.Race
         /// Raised every frame update
         /// </summary>
         event EventHandler<RaceTimeUpdateEventArgs> RaceTimeUpdate;
+
+        /// <summary>
+        /// Allows the user to control his car
+        /// </summary>
+        void AllowUserControl(bool allow);
     }
 }

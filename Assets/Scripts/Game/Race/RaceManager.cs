@@ -76,6 +76,7 @@ namespace Game.Race
         {
             _raceStarted = true;
             RaceStarted?.Invoke(this, new RaceStartedEventArgs());
+            _raceManagerComp.AllowUserControl(true);
         }
     }
 }
