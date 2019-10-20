@@ -1,7 +1,5 @@
 ﻿using Game.Race.Events;
 using System;
-using System.Threading.Tasks;
-using UnityEngine;
 
 namespace Game.Race
 {
@@ -30,6 +28,7 @@ namespace Game.Race
 
         public event EventHandler<RaceStartCountdownStartingEventArgs> RaceStartCountdownStarting;
         public event EventHandler<RaceStartedEventArgs> RaceStarted;
+        public event EventHandler<RaceFinishedEventArgs> RaceFinished;
 
         public RaceManager(int numberOfLaps, int numberOfPlayers, IRaceManagerComp raceManagerComp, int countdownTimeSeconds = DefaultCountdownTime)
         {
@@ -46,13 +45,14 @@ namespace Game.Race
         public void InitFinishTrigger(IFinishTriggerController finishTriggerController)
         {
             _finishTriggerController = finishTriggerController ?? throw new ArgumentNullException(nameof(finishTriggerController));
-            _finishTriggerController.LapFinished += OnLapFinished;
+            _finishTriggerController.RaceFinished += OnRaceFinished;
         }
 
-        private void OnLapFinished(object sender, LapFinishedEventArgs e)
+        private void OnRaceFinished(object sender, RaceFinishedEventArgs e)
         {
             _raceManagerComp.RaceTimeUpdate -= OnUpdate;
-            //RaceFinishedEvent?.Invoke(this, new RaceFinishedEventArgs());
+            RaceFinished?.Invoke(this, new RaceFinishedEventArgs());
+            _raceManagerComp.AllowUserControl(false);
         }
 
         private void OnUpdate(object sender, RaceTimeUpdateEventArgs e)

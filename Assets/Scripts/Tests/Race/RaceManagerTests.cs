@@ -78,7 +78,7 @@ namespace Tests
         [Test]
         public void RaceManager_OnRaceFinished_StopsAddingTime()
         {
-            _finishTrigger.LapFinished += Raise.EventWith(new LapFinishedEventArgs(Substitute.For<IGravitySubjectController>()));
+            _finishTrigger.RaceFinished += Raise.EventWith(new RaceFinishedEventArgs());
             _raceManagerComp.RaceTimeUpdate += Raise.EventWith(new RaceTimeUpdateEventArgs(FrameDelta));
             Assert.Zero(_raceManager.RaceTime);
         }

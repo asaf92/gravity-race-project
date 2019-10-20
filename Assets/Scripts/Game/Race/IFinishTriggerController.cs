@@ -1,12 +1,13 @@
 ﻿using System;
 using Game.Physics;
+using Game.Race.Events;
 
 namespace Game.Race
 {
     public interface IFinishTriggerController
     {
-        event EventHandler<LapFinishedEventArgs> LapFinished;
+        event EventHandler<RaceFinishedEventArgs> RaceFinished;
 
-        void VehicleFinishedLap(IGravitySubjectController gravitySubjectController);
+        void VehicleFinishedRace(IGravitySubjectController gravitySubjectController);
     }
 }

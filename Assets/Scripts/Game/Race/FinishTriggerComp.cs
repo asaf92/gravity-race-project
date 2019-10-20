@@ -20,6 +20,6 @@ public class FinishTriggerComp : MonoBehaviour, IAreaOfEffect<IGravitySubjectCon
         var gravitySubject = other.attachedRigidbody.gameObject.GetComponent<IGravitySubjectComp>().Controller;
         if (gravitySubject == null) return;
 
-        Controller.VehicleFinishedLap(gravitySubject);
+        Controller.VehicleFinishedRace(gravitySubject);
     }
 }

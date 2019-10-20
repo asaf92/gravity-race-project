@@ -1,6 +1,7 @@
 ﻿using System;
 using Game.Physics;
 using Game.Race;
+using Game.Race.Events;
 using NSubstitute;
 using NUnit.Framework;
 
@@ -9,7 +10,7 @@ namespace Tests
     public class FinishTriggerTests
     {
         private IFinishTriggerController _controller;
-        private EventHandler<LapFinishedEventArgs> _lapFinishedEvent;
+        private EventHandler<RaceFinishedEventArgs> _lapFinishedEvent;
         private bool _eventRaised;
 
         [SetUp]
@@ -22,27 +23,21 @@ namespace Tests
         [Test]
         public void FinishTrigger_LapFinished_RaisesEvent()
         {
-            _controller.LapFinished += onLapFinished;
+            _controller.RaceFinished += OnLapFinished;
             IGravitySubjectController gravitySubjectController = Substitute.For<IGravitySubjectController>();
 
             Assert.IsFalse(_eventRaised);
-            _controller.VehicleFinishedLap(gravitySubjectController);
+            _controller.VehicleFinishedRace(gravitySubjectController);
             Assert.IsTrue(_eventRaised);
         }
 
         [Test]
         public void FinishTrigger_VehicleEnteredTriggerIsNull_Throws() => Assert.Throws<ArgumentNullException>(() =>
         {
-            _controller.VehicleFinishedLap(null);
+            _controller.VehicleFinishedRace(null);
         });
 
-        [Test]
-        public void FinishTriggerEventArgs_ArgumentIsNull_Throws() => Assert.Throws<ArgumentNullException>(()=>
-        {
-            new LapFinishedEventArgs(null);
-        });
-
-        private void onLapFinished(object sender, LapFinishedEventArgs e)
+        private void OnLapFinished(object sender, RaceFinishedEventArgs e)
         {
             _eventRaised = true;
         }
