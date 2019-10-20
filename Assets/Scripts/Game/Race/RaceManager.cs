@@ -28,16 +28,17 @@ namespace Game.Race
         private IFinishTriggerController _finishTriggerController;
         private bool _raceStarted = false;
 
-        public event EventHandler<RaceStartCountdownStartingEventArgs> RaceStartCountdownStartingEvent;
-        public event EventHandler<RaceStartedEventArgs> RaceStartedEvent;
+        public event EventHandler<RaceStartCountdownStartingEventArgs> RaceStartCountdownStarting;
+        public event EventHandler<RaceStartedEventArgs> RaceStarted;
 
-        public RaceManager(int numberOfLaps, int numberOfPlayers, IRaceManagerComp raceManagerComp, int CountdownTimeSeconds = DefaultCountdownTime)
+        public RaceManager(int numberOfLaps, int numberOfPlayers, IRaceManagerComp raceManagerComp, int countdownTimeSeconds = DefaultCountdownTime)
         {
             _raceManagerComp = raceManagerComp ?? throw new ArgumentNullException(nameof(raceManagerComp));
             NumberOfPlayers = numberOfPlayers > 0 ? numberOfPlayers : throw new ArgumentException($"Number of players is less than 1 ({numberOfPlayers})");
             NumberOfLaps = numberOfLaps > 0 ? numberOfLaps : throw new ArgumentException($"Number of laps is less than 1 ({numberOfLaps})");
             PlayerLap = 1;
             RaceTime = 0f;
+            TimeToStartRace = countdownTimeSeconds;
 
             _raceManagerComp.RaceTimeUpdate += OnUpdate;
         }
@@ -56,14 +57,14 @@ namespace Game.Race
 
         private void OnUpdate(object sender, RaceTimeUpdateEventArgs e)
         {
-            if(_raceStarted)
+            if (_raceStarted)
             {
                 RaceTime += e.DeltaTime;
             }
             else
             {
                 TimeToStartRace -= e.DeltaTime;
-                RaceStartCountdownStartingEvent?.Invoke(this, new RaceStartCountdownStartingEventArgs(TimeSpan.FromSeconds(TimeToStartRace)));
+                RaceStartCountdownStarting?.Invoke(this, new RaceStartCountdownStartingEventArgs(TimeSpan.FromSeconds(TimeToStartRace)));
                 if (TimeToStartRace <= 0)
                 {
                     StartRace();
@@ -74,6 +75,7 @@ namespace Game.Race
         private void StartRace()
         {
             _raceStarted = true;
+            RaceStarted?.Invoke(this, new RaceStartedEventArgs());
         }
     }
 }

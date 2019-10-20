@@ -19,11 +19,11 @@ namespace Game.Race
         /// <summary>
         /// Raised when the race start countdown begins
         /// </summary>
-        event EventHandler<RaceStartCountdownStartingEventArgs> RaceStartCountdownStartingEvent;
+        event EventHandler<RaceStartCountdownStartingEventArgs> RaceStartCountdownStarting;
 
         /// <summary>
         /// Raised when the race begins
         /// </summary>
-        event EventHandler<RaceStartedEventArgs> RaceStartedEvent;
+        event EventHandler<RaceStartedEventArgs> RaceStarted;
     }
 }

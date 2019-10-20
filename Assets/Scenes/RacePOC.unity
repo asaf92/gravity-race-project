@@ -1456,4 +1456,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 044e83a891ee9644b9904c3c4e559b4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _raceManagerComp: {fileID: 460398808}
   _countdownTextGameObject: {fileID: 430119860}

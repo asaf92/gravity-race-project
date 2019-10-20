@@ -87,7 +87,7 @@ namespace Tests
         public void OnRaceStartCountdown_CountingDown_FiresCountDownEvent()
         {
             var eventRaised = false;
-            _raceManager.RaceStartCountdownStartingEvent += (object o, RaceStartCountdownStartingEventArgs e) => { eventRaised = true; };
+            _raceManager.RaceStartCountdownStarting += (object o, RaceStartCountdownStartingEventArgs e) => { eventRaised = true; };
 
             _raceManagerComp.RaceTimeUpdate += Raise.EventWith(new RaceTimeUpdateEventArgs(FrameDelta));
 
@@ -98,7 +98,7 @@ namespace Tests
         public void OnRaceStartCountdown_FinishedCounting_RaisedEvent()
         {
             var eventRaised = false;
-            _raceManager.RaceStartedEvent += (object o, RaceStartedEventArgs e) => { eventRaised = true; };
+            _raceManager.RaceStarted += (object o, RaceStartedEventArgs e) => { eventRaised = true; };
 
             StartRace();
 

@@ -26,7 +26,10 @@ namespace Game.Race
         private GameObject _finishTriggerGameObject;
 
         private IFinishTriggerController _finishTriggerController;
-        
+
+        [SerializeField]
+        private int _raceStartCountdownTime;
+
         /// <summary>
         /// Raised every frame update
         /// </summary>
@@ -34,7 +37,7 @@ namespace Game.Race
 
         void Awake()
         {
-            RaceManager = new RaceManager(_numberOfLaps, _numberOfPlayers, this);
+            RaceManager = new RaceManager(_numberOfLaps, _numberOfPlayers, this, _raceStartCountdownTime);
         }
 
         void Start()

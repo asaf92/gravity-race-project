@@ -1,4 +1,5 @@
-﻿using NSubstitute;
+﻿using Game.Race;
+using NSubstitute;
 using NUnit.Framework;
 using Presentation.UI;
 
@@ -8,22 +9,16 @@ namespace Tests
     {
         private const int DefaultCountdownTime = 1;
 
-        IRaceStartCountdownComp _componentMock;
-        RaceStartCountdownController _countdownController;
+        private IRaceStartCountdownComp _componentMock;
+        private IRaceManager _raceManager;
+        private RaceStartCountdownController _countdownController;
 
         [SetUp]
         public void SetUp()
         {
             _componentMock = Substitute.For<IRaceStartCountdownComp>();
-            _countdownController = new RaceStartCountdownController(_componentMock);
-        }
-
-        [Test]
-        public void StartCountdown_ValidInput_CallsComponent()
-        {
-            _countdownController.StartCountdown(DefaultCountdownTime);
-
-            _componentMock.Received().StartCountDown(DefaultCountdownTime);
+            _raceManager = Substitute.For<IRaceManager>();
+            _countdownController = new RaceStartCountdownController(_componentMock, _raceManager);
         }
     }
 }

@@ -21,29 +21,38 @@ namespace Presentation.UI
         [Range(0,MaxTimerSeconds)]
         private int _seconds;
 
-        // Start is called before the first frame update
+        private RaceStartCountdownController _controller;
+
+        public void SetCountdownDisplay(string displayText)
+        {
+            _countdownText.text = displayText;
+        }
+
         void Start()
         {
+            _raceManager = _raceManagerComp.GetComponent<IRaceManagerComp>().RaceManager;
+            _controller = new RaceStartCountdownController(this, _raceManager);
             _countdownText = _countdownTextGameObject.GetComponent<Text>();
-            _raceManager = _raceManagerComp.GetComponent<IRaceManager>();
         }
 
-        public void StartCountDown(int seconds)
+        public void RemoveCountdownDisplay(float delay)
         {
-            StartCoroutine(CountdownRoutine(seconds));
+            Debug.Log("Removing countdown text");
+            StartCoroutine(RemoveComponent(delay));
         }
 
-        private IEnumerator CountdownRoutine(int seconds)
+        /// <summary>
+        /// Removes the component's GameObject
+        /// </summary>
+        /// <param name="delay">The delay in seconds</param>
+        /// <returns></returns>
+        private IEnumerator RemoveComponent(float delay)
         {
-            _seconds = Math.Min(seconds, MaxTimerSeconds);
-            while(_seconds > 0)
-            {
-                yield return new WaitForSeconds(1.0f);
-                _seconds--;
-            }
-
-            // Race starts
-            _countdownTextGameObject.gameObject.SetActive(false);
+            Debug.Log("Remove component called");
+            yield return new WaitForSeconds(delay);
+            Debug.Log("Remove component finished waiting");
+            Destroy(_countdownTextGameObject, delay);
+            Debug.Log("Remove component finished executing");
         }
     }
 }
