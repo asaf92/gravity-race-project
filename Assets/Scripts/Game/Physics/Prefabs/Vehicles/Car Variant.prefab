@@ -94,7 +94,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26d76b4e384ac6f438c638f75d170583, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _managerObject: {fileID: 0}
 --- !u!1001 &1967673808038451971
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -104,7 +103,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 100042, guid: 0e7ee4df08df88c4880f43398f9ad2c2, type: 3}
       propertyPath: m_Name
-      value: Car
+      value: Car Variant
       objectReference: {fileID: 0}
     - target: {fileID: 400050, guid: 0e7ee4df08df88c4880f43398f9ad2c2, type: 3}
       propertyPath: m_LocalPosition.x
@@ -194,8 +193,7 @@ PrefabInstance:
       propertyPath: m_Material
       value: 
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 11400024, guid: 0e7ee4df08df88c4880f43398f9ad2c2, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0e7ee4df08df88c4880f43398f9ad2c2, type: 3}
 --- !u!1 &1967673808038485449 stripped
 GameObject:
