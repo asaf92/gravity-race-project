@@ -49,11 +49,8 @@ namespace Presentation.UI
         private IEnumerator RemoveComponent(float delay)
         {
             yield return null;
-            Debug.Log("Remove component called");
             yield return new WaitForSeconds(delay);
-            Debug.Log("Remove component finished waiting");
             Destroy(_countdownTextGameObject);
-            Debug.Log("Remove component finished executing");
         }
     }
 }

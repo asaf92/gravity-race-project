@@ -18,7 +18,6 @@ namespace Game.Race
         /// <param name="gravitySubjectController">The controller of the gravity subject that entered the trigger</param>
         public void VehicleFinishedRace(IGravitySubjectController gravitySubjectController)
         {
-            Debug.Log("Finish trigger fired");
             if (gravitySubjectController == null) throw new ArgumentNullException(nameof(gravitySubjectController));
             
             RaceFinished?.Invoke(this,new RaceFinishedEventArgs());

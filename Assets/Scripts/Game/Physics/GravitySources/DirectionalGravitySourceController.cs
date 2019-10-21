@@ -25,7 +25,6 @@ namespace Game.Physics.GravitySources
             var force = Vector3.Normalize(_component.GravityPullDirection) * _component.Strength;
             foreach (var subject in subjects)
             {
-                Debug.Log($"Applying force {force}");
                 subject.ApplyForce(force);
             }
         }
