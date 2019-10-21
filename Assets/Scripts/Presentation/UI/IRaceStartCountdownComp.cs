@@ -12,5 +12,9 @@
         /// </summary>
         /// <param name="delay"></param>
         void RemoveCountdownDisplay(float delay);
+
+        void PlayCountdownSound();
+
+        void PlayRaceStartSound();
     }
 }

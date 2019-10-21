@@ -1,27 +1,35 @@
 ﻿using Game.Race;
-using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Presentation.UI
 {
+    [RequireComponent(typeof(AudioSource))]
     public class RaceStartCountdownComp : MonoBehaviour, IRaceStartCountdownComp
     {
         private const int MaxTimerSeconds = 5;
 
-        [SerializeField]
-        private GameObject _raceManagerComp;
-        private IRaceManager _raceManager;
-
-        [SerializeField]
-        private GameObject _countdownTextGameObject;
-        private Text _countdownText;
+        [SerializeField] private AudioClip _countdownSound;
+        [SerializeField] private AudioClip _raceStartSound;
+        [SerializeField] private GameObject _raceManagerComp;
+        [SerializeField] private GameObject _countdownTextGameObject;
 
         [Range(0,MaxTimerSeconds)]
         private int _seconds;
 
+        private Text _countdownText;
+        private IRaceManager _raceManager;
+        private AudioSource _audioSource;
         private RaceStartCountdownController _controller;
+
+        void Start()
+        {
+            _raceManager = _raceManagerComp.GetComponent<IRaceManagerComp>().RaceManager;
+            _controller = new RaceStartCountdownController(this, _raceManager);
+            _countdownText = _countdownTextGameObject.GetComponent<Text>();
+            _audioSource = GetComponent<AudioSource>();
+        }
 
         public void SetCountdownDisplay(string displayText)
         {
@@ -29,16 +37,25 @@ namespace Presentation.UI
             _countdownText.text = displayText;
         }
 
-        void Start()
-        {
-            _raceManager = _raceManagerComp.GetComponent<IRaceManagerComp>().RaceManager;
-            _controller = new RaceStartCountdownController(this, _raceManager);
-            _countdownText = _countdownTextGameObject.GetComponent<Text>();
-        }
-
         public void RemoveCountdownDisplay(float delay)
         {
             StartCoroutine(RemoveComponent(delay));
+        }
+
+        public void PlayCountdownSound()
+        {
+            if (!_audioSource.isPlaying)
+            {
+                _audioSource.PlayOneShot(_countdownSound);
+            }
+        }
+
+        public void PlayRaceStartSound()
+        {
+            if (!_audioSource.isPlaying)
+            {
+                _audioSource.PlayOneShot(_raceStartSound);
+            }
         }
 
         /// <summary>
