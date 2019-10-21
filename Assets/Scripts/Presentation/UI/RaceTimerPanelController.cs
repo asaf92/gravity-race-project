@@ -23,7 +23,9 @@ namespace Presentation.UI
 
             _raceManager = GetRaceManager();
             _currentRaceTime = TimeSpan.FromSeconds(0);
-            _bestTime = TimeSpan.FromSeconds(PlayerPrefs.GetInt(SettingsKeys.BestLapTime));
+            _bestTime = TimeSpan.FromSeconds(PlayerPrefs.GetFloat(SettingsKeys.HighScore));
+            _raceManager.NewRecordSet += OnNewRecordSet;
+
             UpdateTimerText();
         }
 
@@ -34,6 +36,17 @@ namespace Presentation.UI
         }
 
         private IRaceManager GetRaceManager() => _raceManagerGameObject.GetComponent<IRaceManagerComp>().RaceManager ?? throw new ArgumentNullException("Race manager not found");
-        private void UpdateTimerText() => _raceTimerTimeText.text = _currentRaceTime.ToString(HudMessages.TimeStringFormat) + Environment.NewLine + _bestTime.ToString(HudMessages.TimeStringFormat);
+
+        private void UpdateTimerText()
+        {
+            _raceTimerTimeText.text = _currentRaceTime.ToString(HudMessages.TimeStringFormat) 
+                + Environment.NewLine 
+                + _bestTime.ToString(HudMessages.TimeStringFormat);
+        }
+
+        private void OnNewRecordSet(object sender, NewRecordEventArgs e)
+        {
+            _bestTime = TimeSpan.FromSeconds(e.NewRecord);
+        }
     }
 }

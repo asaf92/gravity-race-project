@@ -1,5 +1,7 @@
-﻿using Game.Race.Events;
+﻿using Game.Constants;
+using Game.Race.Events;
 using System;
+using UnityEngine;
 
 namespace Game.Race
 {
@@ -29,6 +31,7 @@ namespace Game.Race
         public event EventHandler<RaceStartCountdownStartingEventArgs> RaceStartCountdownStarting;
         public event EventHandler<RaceStartedEventArgs> RaceStarted;
         public event EventHandler<RaceFinishedEventArgs> RaceFinished;
+        public event EventHandler<NewRecordEventArgs> NewRecordSet;
 
         public RaceManager(int numberOfLaps, 
             int numberOfPlayers, 
@@ -44,6 +47,12 @@ namespace Game.Race
             TimeToStartRace = countdownTimeSeconds;
 
             _raceManagerComp.RaceTimeUpdate += OnUpdate;
+
+            if(bestTime == 0.0f)
+            {
+                BestRaceTime = PlayerPrefs.GetFloat(SettingsKeys.HighScore);
+                Debug.Log($"Setting best race time to {bestTime}");
+            }
         }
 
         public void InitFinishTrigger(IFinishTriggerController finishTriggerController)
@@ -56,7 +65,14 @@ namespace Game.Race
         {
             _raceManagerComp.RaceTimeUpdate -= OnUpdate;
             bool newRecord = BestRaceTime <= 0.0f || RaceTime < BestRaceTime;
+
             RaceFinished?.Invoke(this, new RaceFinishedEventArgs(TimeSpan.FromSeconds(RaceTime), newRecord));
+            if(newRecord)
+            {
+                PlayerPrefs.SetFloat(SettingsKeys.HighScore, RaceTime);
+                NewRecordSet?.Invoke(this, new NewRecordEventArgs(RaceTime));
+            }
+
             _raceManagerComp.AllowUserControl(false);
             _raceManagerComp.EndLevel();
         }

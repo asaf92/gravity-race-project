@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Presentation.UI.Constants;
+using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -8,11 +9,16 @@ namespace Presentation.UI.MainMenu
     {
         protected abstract string MenuText { get; }
 
+        protected MenuManager _manager;
+
         private Text _text;
 
         void Start()
         {
             _text = GetComponent<Text>();
+            _manager = GameObject.FindGameObjectWithTag(Tags.MenuManager).GetComponent<MenuManager>();
+            var text = _manager == null ? "null" : "Not null";
+            Debug.Log($"manager is {text}");
         }
 
         public void OnPointerEnter(PointerEventData eventData)

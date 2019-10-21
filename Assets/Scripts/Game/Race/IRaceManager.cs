@@ -30,5 +30,10 @@ namespace Game.Race
         /// Raised when the race has finished
         /// </summary>
         event EventHandler<RaceFinishedEventArgs> RaceFinished;
+
+        /// <summary>
+        /// Raised when a new record is set
+        /// </summary>
+        event EventHandler<NewRecordEventArgs> NewRecordSet;
     }
 }

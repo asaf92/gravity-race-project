@@ -2,6 +2,6 @@
 {
     public static class SettingsKeys
     {
-        public const string BestLapTime = "BestLapTime";
+        public const string HighScore = "HighScore";
     }
 }
