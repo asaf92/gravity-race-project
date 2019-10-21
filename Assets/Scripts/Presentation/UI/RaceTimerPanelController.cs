@@ -9,10 +9,9 @@ namespace Presentation.UI
 {
     public class RaceTimerPanelController : MonoBehaviour
     {
-        [SerializeField]
-        private GameObject _raceManagerGameObject;
-        [SerializeField]
-        private Text _raceTimerTimeText;
+        [SerializeField] private GameObject _raceManagerGameObject;
+        [SerializeField] private Text _raceTimerTimeText;
+
         private IRaceManager _raceManager;
         private TimeSpan _currentRaceTime;
         private TimeSpan _bestTime;

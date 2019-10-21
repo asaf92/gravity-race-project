@@ -42,7 +42,9 @@ namespace Game.Race
         {
             _carUserControl = _playerGameObject.GetComponent<CarUserControl>();
             _carUserControl.enabled = false;
-            _finishTriggerController = _finishTriggerGameObject.GetComponent<FinishTriggerComp>().Controller ?? throw new ArgumentException("Finish trigger not found");
+            _finishTriggerController = _finishTriggerGameObject.GetComponent<FinishTriggerComp>().Controller
+                ?? GameObject.FindGameObjectWithTag(Tags.FinishTrigger).GetComponent<FinishTriggerComp>().Controller
+                ?? throw new ArgumentException("Finish trigger not found");
             RaceManager.InitFinishTrigger(_finishTriggerController);
         }
 
