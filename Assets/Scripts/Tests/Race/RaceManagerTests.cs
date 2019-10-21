@@ -1,5 +1,4 @@
 ﻿using System;
-using Game.Physics;
 using Game.Race;
 using Game.Race.Events;
 using NSubstitute;
@@ -78,7 +77,7 @@ namespace Tests
         [Test]
         public void RaceManager_OnRaceFinished_StopsAddingTime()
         {
-            _finishTrigger.RaceFinished += Raise.EventWith(new RaceFinishedEventArgs());
+            _finishTrigger.RaceFinished += Raise.EventWith(new FinishTriggerActivated());
             _raceManagerComp.RaceTimeUpdate += Raise.EventWith(new RaceTimeUpdateEventArgs(FrameDelta));
             Assert.Zero(_raceManager.RaceTime);
         }
@@ -103,6 +102,14 @@ namespace Tests
             StartRace();
 
             Assert.IsTrue(eventRaised);
+        }
+
+        [Test]
+        public void RaceFinished_UserLosesControl()
+        {
+            _finishTrigger.RaceFinished += Raise.EventWith(new FinishTriggerActivated());
+
+            _raceManagerComp.Received().AllowUserControl(false);
         }
 
         private bool CompareFloats(float a, float b) => Math.Abs(a - b) < Epsilon ? true : false;

@@ -1,7 +1,6 @@
 ﻿using System;
 using Game.Physics;
 using Game.Race.Events;
-using UnityEngine;
 
 namespace Game.Race
 {
@@ -10,7 +9,7 @@ namespace Game.Race
         /// <summary>
         /// Raised whenever a vehicle finishes a lap
         /// </summary>
-        public event EventHandler<RaceFinishedEventArgs> RaceFinished;
+        public event EventHandler<FinishTriggerActivated> RaceFinished;
 
         /// <summary>
         /// Invokes the <see cref="RaceFinished"/> event with <paramref name="gravitySubjectController"/> as the argument
@@ -20,7 +19,7 @@ namespace Game.Race
         {
             if (gravitySubjectController == null) throw new ArgumentNullException(nameof(gravitySubjectController));
             
-            RaceFinished?.Invoke(this,new RaceFinishedEventArgs());
+            RaceFinished?.Invoke(this,new FinishTriggerActivated());
         }
     }
 }

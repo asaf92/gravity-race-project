@@ -25,5 +25,10 @@ namespace Game.Race
         /// Raised when the race begins
         /// </summary>
         event EventHandler<RaceStartedEventArgs> RaceStarted;
+
+        /// <summary>
+        /// Raised when the race has finished
+        /// </summary>
+        event EventHandler<RaceFinishedEventArgs> RaceFinished;
     }
 }

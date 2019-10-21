@@ -6,7 +6,7 @@ namespace Game.Race
 {
     public interface IFinishTriggerController
     {
-        event EventHandler<RaceFinishedEventArgs> RaceFinished;
+        event EventHandler<FinishTriggerActivated> RaceFinished;
 
         void VehicleFinishedRace(IGravitySubjectController gravitySubjectController);
     }

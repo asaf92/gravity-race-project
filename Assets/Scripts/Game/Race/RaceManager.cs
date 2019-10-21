@@ -30,7 +30,11 @@ namespace Game.Race
         public event EventHandler<RaceStartedEventArgs> RaceStarted;
         public event EventHandler<RaceFinishedEventArgs> RaceFinished;
 
-        public RaceManager(int numberOfLaps, int numberOfPlayers, IRaceManagerComp raceManagerComp, int countdownTimeSeconds = DefaultCountdownTime)
+        public RaceManager(int numberOfLaps, 
+            int numberOfPlayers, 
+            IRaceManagerComp raceManagerComp, 
+            int countdownTimeSeconds = DefaultCountdownTime,
+            float bestTime = 0)
         {
             _raceManagerComp = raceManagerComp ?? throw new ArgumentNullException(nameof(raceManagerComp));
             NumberOfPlayers = numberOfPlayers > 0 ? numberOfPlayers : throw new ArgumentException($"Number of players is less than 1 ({numberOfPlayers})");
@@ -48,10 +52,11 @@ namespace Game.Race
             _finishTriggerController.RaceFinished += OnRaceFinished;
         }
 
-        private void OnRaceFinished(object sender, RaceFinishedEventArgs e)
+        private void OnRaceFinished(object sender, FinishTriggerActivated e)
         {
             _raceManagerComp.RaceTimeUpdate -= OnUpdate;
-            RaceFinished?.Invoke(this, new RaceFinishedEventArgs());
+            bool newRecord = BestRaceTime <= 0.0f || RaceTime < BestRaceTime;
+            RaceFinished?.Invoke(this, new RaceFinishedEventArgs(TimeSpan.FromSeconds(RaceTime), newRecord));
             _raceManagerComp.AllowUserControl(false);
         }
 

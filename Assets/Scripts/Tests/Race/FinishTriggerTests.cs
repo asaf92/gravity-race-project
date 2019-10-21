@@ -10,7 +10,6 @@ namespace Tests
     public class FinishTriggerTests
     {
         private IFinishTriggerController _controller;
-        private EventHandler<RaceFinishedEventArgs> _lapFinishedEvent;
         private bool _eventRaised;
 
         [SetUp]
@@ -37,7 +36,7 @@ namespace Tests
             _controller.VehicleFinishedRace(null);
         });
 
-        private void OnLapFinished(object sender, RaceFinishedEventArgs e)
+        private void OnLapFinished(object sender, FinishTriggerActivated e)
         {
             _eventRaised = true;
         }
