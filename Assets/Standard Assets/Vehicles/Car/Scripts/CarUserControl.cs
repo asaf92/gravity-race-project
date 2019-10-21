@@ -7,8 +7,11 @@ namespace UnityStandardAssets.Vehicles.Car
     [RequireComponent(typeof (CarController))]
     public class CarUserControl : MonoBehaviour
     {
+        private const float MaximumBrakeValue = Single.NegativeInfinity;
+        private const float MaximumHandbrakeValue = Single.PositiveInfinity;
         private CarController m_Car; // the car controller we want to use
-
+        private bool _applyMaxBrake;
+        private bool _overrideControls;
 
         private void Awake()
         {
@@ -19,6 +22,12 @@ namespace UnityStandardAssets.Vehicles.Car
 
         private void FixedUpdate()
         {
+            if (_overrideControls && _applyMaxBrake)
+            {
+                m_Car.Move(0.0f, MaximumBrakeValue, MaximumBrakeValue, MaximumHandbrakeValue);
+                return;
+            }
+
             // pass the input to the car!
             float horizontal = CrossPlatformInputManager.GetAxis("Horizontal");
             float vertical = CrossPlatformInputManager.GetAxis("Vertical");
@@ -29,6 +38,12 @@ namespace UnityStandardAssets.Vehicles.Car
 #else
             m_Car.Move(h, v, v, 0f);
 #endif
+        }
+
+        public void MaxBrake()
+        {
+            _applyMaxBrake = true;
+            _overrideControls = true;
         }
     }
 }

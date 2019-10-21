@@ -58,6 +58,7 @@ namespace Game.Race
             bool newRecord = BestRaceTime <= 0.0f || RaceTime < BestRaceTime;
             RaceFinished?.Invoke(this, new RaceFinishedEventArgs(TimeSpan.FromSeconds(RaceTime), newRecord));
             _raceManagerComp.AllowUserControl(false);
+            _raceManagerComp.EndLevel();
         }
 
         private void OnUpdate(object sender, RaceTimeUpdateEventArgs e)

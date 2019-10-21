@@ -18,5 +18,10 @@ namespace Game.Race
         /// Allows the user to control his car
         /// </summary>
         void AllowUserControl(bool allow);
+
+        /// <summary>
+        /// Ends the level and returns to the main menu after a short delay
+        /// </summary>
+        void EndLevel();
     }
 }

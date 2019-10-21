@@ -1,6 +1,8 @@
 ﻿using Game.Constants;
 using System;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityStandardAssets.Vehicles.Car;
 
 namespace Game.Race
@@ -10,6 +12,8 @@ namespace Game.Race
     /// </summary>
     public class RaceManagerComp : MonoBehaviour, IRaceManagerComp
     {
+        private const float ExitLevelDelay = 5.5f;
+
         /// <summary>
         /// A reference to the Race Manager object
         /// </summary>
@@ -25,6 +29,7 @@ namespace Game.Race
         [SerializeField] private int _numberOfPlayers;
         private GameObject _playerGameObject;
         private IFinishTriggerController _finishTriggerController;
+        private CarController _carController;
         private CarUserControl _carUserControl;
 
         /// <summary>
@@ -40,6 +45,7 @@ namespace Game.Race
 
         void Start()
         {
+            _carController = _playerGameObject.GetComponent<CarController>();
             _carUserControl = _playerGameObject.GetComponent<CarUserControl>();
             _carUserControl.enabled = false;
             _finishTriggerController = _finishTriggerGameObject.GetComponent<FinishTriggerComp>().Controller
@@ -53,6 +59,27 @@ namespace Game.Race
             RaceTimeUpdate?.Invoke(this, new RaceTimeUpdateEventArgs(Time.deltaTime));
         }
 
-        public void AllowUserControl(bool allow = true) => _carUserControl.enabled = allow;
+        public void AllowUserControl(bool allow = true)
+        {
+            if (allow)
+            {
+                _carUserControl.enabled = true;
+                return;
+            }
+
+            _carUserControl.MaxBrake();
+        }
+
+        public void EndLevel()
+        {
+            StartCoroutine(nameof(EndLevelCoroutine));
+        }
+
+        private IEnumerator EndLevelCoroutine()
+        {
+            yield return new WaitForSeconds(ExitLevelDelay);
+            Debug.Log("Exiting Scene");
+            SceneManager.LoadScene("MainMenu");
+        }
     }
 }
