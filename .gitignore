@@ -9,10 +9,8 @@
 /[Mm]emoryCaptures/
 
 # Build folder
-#/[Bb]uild/
-#/[Bb]uilds/
-!/[Bb]uild/*
-!/[Bb]uild/Gravity Race_Data/Managed/*
+/[Bb]uild/
+/[Bb]uilds/
 
 # Never ignore Asset meta data
 !/[Aa]ssets/**/*.meta
