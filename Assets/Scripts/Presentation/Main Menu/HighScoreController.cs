@@ -4,26 +4,29 @@ using Game.Constants;
 using Presentation.UI.Constants;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(Text))]
-public class HighScoreController : MonoBehaviour
+namespace Presentation.MainMenu
 {
-    private Text _highScoreText;
-
-    void OnEnable()
+    [RequireComponent(typeof(Text))]
+    public class HighScoreController : MonoBehaviour
     {
-        try
-        {
-            _highScoreText = GetComponent<Text>();
+        private Text _highScoreText;
 
-            var highScore = TimeSpan.FromSeconds(PlayerPrefs.GetFloat(SettingsKeys.HighScore))
-                .ToString(HudMessages.TimeStringFormat);
-
-            _highScoreText.text = highScore;
-            Debug.Log($"Set highScore to {highScore}");
-        }
-        catch(Exception exception)
+        void OnEnable()
         {
-            Debug.LogError($"Error in high-score screen:\n{exception.Message}");
+            try
+            {
+                _highScoreText = GetComponent<Text>();
+
+                var highScore = TimeSpan.FromSeconds(PlayerPrefs.GetFloat(SettingsKeys.HighScore))
+                    .ToString(HudMessages.TimeStringFormat);
+
+                _highScoreText.text = highScore;
+                Debug.Log($"Set highScore to {highScore}");
+            }
+            catch (Exception exception)
+            {
+                Debug.LogError($"Error in high-score screen:\n{exception.Message}");
+            }
         }
     }
 }
