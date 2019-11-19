@@ -9,6 +9,7 @@ namespace Game.Race
     {
         private const int particlesLifetime = 3;
         private const int particlesSize = 1;
+        private static readonly Color RaceFinishColor = Color.red;
 
         [SerializeField] private FinishTriggerComp _finishTriggerComp;
         [SerializeField] private RaceManagerComp _raceManagerComp;
@@ -37,7 +38,7 @@ namespace Game.Race
         private void _finishTrigger_RaceFinished(object sender, Events.FinishTriggerActivated e)
         {
             var particleSettings = _particleSystem.main;
-            particleSettings.startColor = new ParticleSystem.MinMaxGradient(Color.blue);
+            particleSettings.startColor = new ParticleSystem.MinMaxGradient(RaceFinishColor);
         }
     }
 }
